@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -27,9 +25,14 @@ public class GameFunc {
     }
     public void startGame() {
         int diceCount = 0;
+        String playerID = null;
         int gameScore = 0;
         int dice1 = 0;
         int dice2 = 0;
+
+        System.out.println("주사위 게임을 시작합니다. ID를 입력해주세요.");
+        s.nextLine();
+        playerID = s.nextLine();
 
         while (diceCount < 10) {
             System.out.println(diceCount + 1 + "번째 주사위를 던집니다.");
@@ -42,7 +45,8 @@ public class GameFunc {
             }
             diceCount++;
         }
-        System.out.println("게임의 최종 점수는 " + gameScore + "점 입니다.");
+        System.out.println(playerID + ", 게임의 최종 점수는 " + gameScore + "점 입니다.");
+        PlayerInfo p = new PlayerInfo(playerID, gameScore);
         menuSelect();
     }
 
