@@ -1,23 +1,31 @@
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class GameFunc {
+    ArrayList<PlayerInfo> pList = new ArrayList<>();
     Scanner s = new Scanner(System.in);
     Random r = new Random();
-    public void menuSelect() {
+    public void menuSelect() throws InputMismatchException {
         int selected = 0;
         System.out.println("주사위 게임에 오신 것을 환영합니다. 메뉴를 선택해주세요.");
         System.out.println("1. 게임 시작");
-        System.out.println("2. 게임 종료");
-        selected = s.nextInt();
-
-        while (selected < 0 || selected > 2) {
-            System.out.println("입력값이 잘못되었습니다.");
+        System.out.println("2. 랭킹 조회");
+        System.out.println("3. 게임 종료");
+        try {
             selected = s.nextInt();
+
+            while (selected < 1 || selected > 3) {
+                System.out.println("입력값이 잘못되었습니다.");
+                selected = s.nextInt();
+            }
+        } catch (InputMismatchException e) {
+            System.err.println("입력값이 잘못되었습니다.");
         }
 
         if (selected == 1) {
             startGame();
+        }
+        else if (selected == 2) {
+            showRank();
         }
         else {
             System.exit(0);
@@ -47,7 +55,20 @@ public class GameFunc {
         }
         System.out.println(playerID + ", 게임의 최종 점수는 " + gameScore + "점 입니다.");
         PlayerInfo p = new PlayerInfo(playerID, gameScore);
+        pList.add(p);
         menuSelect();
     }
-
+    public void showRank() {
+        Collections.sort(pList);
+        if (pList.size() <= 10) {
+            for (PlayerInfo p: pList) {
+                System.out.println(String.format("ID : %s, Score : %d", p.ID, p.gameScore));
+            }
+        } else {
+            for (int i = 0; i < 10; i++) {
+                System.out.println(String.format("ID : %s, Score : %d", pList.get(i).ID, pList.get(i).gameScore));
+            }
+        }
+        menuSelect();
+    }
 }
